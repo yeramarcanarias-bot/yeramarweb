@@ -1,0 +1,529 @@
+/* ============================================
+   YERAMAR · TIENDA PÚBLICA
+   Misma paleta que el panel de gestión Electron
+   ============================================ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --color-primary: #B87C4E;
+  --color-primary-dark: #8B5A2E;
+  --color-accent: #D9A13B;
+  --color-cream: #F7F1E6;
+  --color-text: #4A3B2E;
+  --color-text-muted: #8a7565;
+  --shadow-sm: 0 4px 14px rgba(120, 80, 40, 0.10);
+  --shadow-md: 0 14px 32px rgba(120, 80, 40, 0.18);
+  --radius: 20px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  color: var(--color-text);
+  background-color: var(--color-cream);
+  background-image:
+    repeating-linear-gradient(45deg, rgba(139,90,46,0.05) 0px, rgba(139,90,46,0.05) 1px, transparent 1px, transparent 9px),
+    repeating-linear-gradient(-45deg, rgba(139,90,46,0.05) 0px, rgba(139,90,46,0.05) 1px, transparent 1px, transparent 9px);
+  background-attachment: fixed;
+  line-height: 1.5;
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px 60px; }
+
+a { color: inherit; text-decoration: none; }
+
+/* ============================================
+   CABECERA
+   ============================================ */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(247, 241, 230, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(184, 124, 78, 0.18);
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.logo-area { display: flex; align-items: center; gap: 14px; }
+.logo-img { width: 52px; height: 52px; border-radius: 14px; object-fit: cover; box-shadow: var(--shadow-sm); }
+.logo-text { font-size: 20px; font-weight: 700; letter-spacing: 1px; color: var(--color-primary-dark); }
+.logo-sub { font-size: 11px; letter-spacing: 0.5px; color: var(--color-text-muted); margin-top: 2px; }
+
+.nav-links { display: flex; gap: 8px; }
+.nav-links a {
+  padding: 9px 18px;
+  border-radius: 40px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+.nav-links a:hover { background: rgba(184, 124, 78, 0.12); }
+
+/* ============================================
+   HERO BANNER — logo grande en un lateral
+   ============================================ */
+
+.hero-banner {
+  border-bottom: 1px solid rgba(184, 124, 78, 0.15);
+  overflow: hidden;
+}
+
+.banner-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 56px 24px;
+  display: grid;
+  grid-template-columns: minmax(200px, 320px) 1fr;
+  align-items: center;
+  gap: 48px;
+}
+
+.banner-logo {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 28px;
+  box-shadow: var(--shadow-md);
+  border: 6px solid white;
+  justify-self: center;
+}
+
+.banner-text h2 {
+  font-size: 40px;
+  letter-spacing: 2px;
+  color: var(--color-primary-dark);
+  margin-bottom: 8px;
+}
+
+.banner-artisan {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--color-accent);
+  margin-bottom: 14px;
+}
+
+.banner-text p:not(.banner-artisan) {
+  font-size: 16px;
+  color: var(--color-text-muted);
+  max-width: 480px;
+}
+
+/* ============================================
+   FILTROS DE CATEGORÍA
+   ============================================ */
+
+.categories-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 36px 0 28px;
+}
+
+.filter-btn {
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(184, 124, 78, 0.25);
+  color: var(--color-text);
+  padding: 9px 20px;
+  border-radius: 40px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.filter-btn:hover { border-color: var(--color-primary); }
+.filter-btn.active {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  border-color: transparent;
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ============================================
+   CUADRÍCULA DE PRODUCTOS
+   ============================================ */
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 26px;
+  margin-bottom: 50px;
+}
+
+.product-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border-radius: 18px;
+  border: 1px solid rgba(184, 124, 78, 0.18);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+.product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+
+.product-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  background: linear-gradient(135deg, #efe2d3, #e2cdb4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  font-size: 40px;
+}
+.product-img img { width: 100%; height: 100%; object-fit: cover; }
+
+.empty-state-msg { grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--color-text-muted); }
+
+.badge-available { background: #d9f0d4; color: #1e5c1e; padding: 3px 12px; border-radius: 40px; font-size: 0.75rem; font-weight: 600; }
+.badge-waiting { color: var(--color-primary); font-size: 0.85rem; }
+.waitlist-item .fa-star-of-life { color: var(--color-accent); }
+.empty-waitlist i { margin-right: 6px; }
+
+.product-info { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+
+.product-category {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--color-accent);
+}
+
+.product-title { font-size: 17px; font-weight: 700; color: var(--color-text); }
+.product-desc { font-size: 13px; color: var(--color-text-muted); flex: 1; }
+
+.stock-status { font-size: 12px; font-weight: 600; color: #3a7d3a; }
+.stock-status.out { color: #b5522f; }
+
+.price { font-size: 22px; font-weight: 800; color: var(--color-primary-dark); margin-top: 4px; }
+
+.card-actions { margin-top: 10px; }
+.card-actions button { width: 100%; }
+
+/* ============================================
+   BOTONES
+   ============================================ */
+
+.btn-primary, .btn-outline {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 11px 18px;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  border: none;
+  color: white;
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary-dark);
+}
+.btn-outline:hover { background: rgba(184, 124, 78, 0.10); }
+
+/* ============================================
+   LISTA DE ESPERA
+   ============================================ */
+
+.waitlist-section {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(8px);
+  border-radius: var(--radius);
+  border: 1px solid rgba(184, 124, 78, 0.18);
+  box-shadow: var(--shadow-sm);
+  padding: 28px 30px;
+  margin-bottom: 40px;
+}
+
+.waitlist-title { font-size: 19px; font-weight: 700; color: var(--color-primary-dark); margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+.waitlist-desc { font-size: 14px; color: var(--color-text-muted); margin-bottom: 18px; }
+
+.waitlist-grid { display: flex; flex-direction: column; gap: 10px; }
+
+.waitlist-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(247, 241, 230, 0.7);
+  border-radius: 12px;
+  border: 1px solid rgba(184, 124, 78, 0.14);
+  font-size: 14px;
+  flex-wrap: wrap;
+}
+
+.waitlist-btn-sm {
+  background: transparent;
+  border: 1px solid #b5522f;
+  color: #b5522f;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.waitlist-btn-sm:hover { background: rgba(181, 82, 47, 0.10); }
+
+.empty-waitlist { font-size: 14px; color: var(--color-text-muted); text-align: center; padding: 20px 0; }
+
+/* ============================================
+   FOOTER
+   ============================================ */
+
+footer {
+  text-align: center;
+  padding: 30px 24px 40px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  border-top: 1px solid rgba(184, 124, 78, 0.15);
+}
+
+/* ============================================
+   MODAL DE CONTACTO / LISTA DE ESPERA
+   ============================================ */
+
+.modal-waitlist {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(74, 59, 46, 0.55);
+  z-index: 2000;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.modal-waitlist-content {
+  background: #FFFDFA;
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 450px;
+  width: 100%;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+}
+
+.modal-waitlist-content h3 { color: var(--color-primary-dark); font-size: 19px; margin-bottom: 8px; }
+
+#channelModalDesc { color: var(--color-text-muted); font-size: 0.9rem; }
+
+.modal-waitlist-content input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  margin: 14px 0;
+  border: 2px solid #E8DDD2;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.modal-waitlist-content input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.modal-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
+
+.error-message {
+  color: #b5522f;
+  font-size: 0.8rem;
+  margin: 4px 0 8px;
+  min-height: 1.2em;
+  display: none;
+}
+
+/* ============================================
+   TOAST
+   ============================================ */
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  left: 20px;
+  margin: 0 auto;
+  max-width: 340px;
+  background: #3a7d3a;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 12px;
+  z-index: 3000;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+  animation: toastFade 3.2s ease forwards;
+  pointer-events: none;
+}
+
+.toast.error { background: #b5522f; }
+
+@keyframes toastFade {
+  0%   { opacity: 1; transform: translateY(0); }
+  75%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(16px); visibility: hidden; }
+}
+
+/* ============================================
+   ACCESIBILIDAD
+   ============================================ */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ============================================
+   INTRO — vídeo del logo (con sonido) que aterriza en el logo del header
+   ============================================
+   Misma estructura que el protocolo de arranque de El Trenzado (probado y
+   funcionando ahí): SIN contenedor envolvente — el propio <video> es el
+   que se transforma directamente con "transform" (translate + scale) al
+   terminar. El fondo oscuro nace YA opaco (nada de fade-in): combinado con
+   el <style> crítico del <head> que pinta el fondo de marca desde el
+   primer pintado, nunca se ve un fogonazo de la página antes de que la
+   intro cubra la pantalla. */
+
+#introBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: #1a120b;
+  opacity: 0.94;
+  transition: opacity 1s ease;
+  pointer-events: auto;
+}
+
+#introVideo {
+  position: fixed;
+  z-index: 9999;
+  object-fit: cover;
+  background: #000;
+  border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+#introVideo.is-flying {
+  transform-origin: center center;
+  transition:
+    transform 1.5s cubic-bezier(0.76, 0, 0.24, 1),
+    border-radius 1.5s ease,
+    box-shadow 1.5s ease;
+}
+
+/* Puerta de entrada: garantiza el gesto del usuario que el navegador exige
+   para permitir el autoplay CON sonido. Encima del backdrop (z-index
+   superior), se retira en cuanto se pulsa. */
+#introStartGate {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  width: 100%;
+  height: 100%;
+  border: none;
+  margin: 0;
+  padding: 0;
+  background: rgba(26, 18, 11, 0.55);
+  color: var(--color-cream);
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.4s ease;
+}
+#introStartGate img {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 3px var(--color-accent), 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: introGatePulso 1.8s ease-in-out infinite;
+}
+#introStartGate span {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--color-cream);
+  opacity: 0.9;
+}
+#introStartGate.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+@keyframes introGatePulso {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
+}
+
+/* El logo real del header se queda invisible (pero ocupando su sitio,
+   para que la animación pueda medir su posición) mientras dura la intro */
+.logo-img.intro-pending { opacity: 0; }
+.logo-img.intro-revealing { animation: introRevelaLogo 0.8s ease forwards; }
+
+@keyframes introRevelaLogo {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 720px) {
+  .banner-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: 40px 24px;
+    gap: 24px;
+  }
+  .banner-logo { max-width: 220px; justify-self: center; }
+  .banner-text p:not(.banner-artisan) { margin: 0 auto; }
+  .banner-text h2 { font-size: 30px; }
+
+  .header-container { justify-content: center; text-align: center; }
+  .logo-sub { display: none; }
+}

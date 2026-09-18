@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  
+  <!-- ========== META TAGS DE SEGURIDAD ========== -->
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  
+  <!-- ========== PERMISSIONS POLICY ========== -->
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), accelerometer=(), gyroscope=()">
+  
+  <!-- ========== CONTENT SECURITY POLICY (CSP) ========== -->
+  <!-- Coincide con la de .htaccess. Esta va incrustada en el HTML como
+       segunda capa, por si el hosting no aplicara las cabeceras del servidor. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data:; script-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+  
+  <title>Yeramar · Macramé & Joyería Artesanal</title>
+  
+  <!-- CSS con SRI (Subresource Integrity) -->
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <!-- Estilo crítico inline: pinta el fondo de marca Y posiciona la intro
+       a pantalla completa ANTES de que lleguen styles.css / Google Fonts /
+       Font Awesome (las tres son hojas externas que bloquean el pintado
+       mientras se descargan). Antes este bloque solo fijaba el color de
+       fondo pero no el "position: fixed" del backdrop/vídeo, así que
+       mientras esas hojas externas tardaban en llegar, #introBackdrop era
+       un div sin posicionar (no cubría nada) y se veía la página sin
+       maquetar detrás -> fogonazo blanco, seguido de un "corte" cuando el
+       CSS externo por fin llegaba y todo encajaba de golpe. Con el
+       posicionamiento aquí también, el backdrop cubre la pantalla entera
+       desde el primer fotograma, venga o no el resto del CSS. Mismo
+       patrón que usa el protocolo de arranque de El Trenzado. -->
+  <style>
+    html, body { background: #1a120b; margin: 0; }
+    #introBackdrop {
+      position: fixed; inset: 0; z-index: 9998;
+      background: #1a120b; opacity: 0.94;
+    }
+    #introVideo {
+      position: fixed; z-index: 9999; background: #000;
+    }
+    #introStartGate {
+      position: fixed; inset: 0; z-index: 10000;
+      background: rgba(26, 18, 11, 0.55); border: none; margin: 0; padding: 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- INTRO: vídeo del logo con sonido -> "aterriza" en el logo del header.
+     Sin contenedor envolvente: el propio <video> es el que se transforma
+     directamente (igual que en El Trenzado) — así no hay una capa
+     intermedia cuya opacidad se pueda desincronizar del vuelo. -->
+<div id="introBackdrop" aria-hidden="true"></div>
+<video id="introVideo" src="intro-video.mp4" playsinline preload="auto" aria-hidden="true"></video>
+<!-- Puerta de entrada: el navegador bloquea el autoplay CON sonido si el
+     visitante no ha interactuado antes con la página (política del propio
+     navegador, no algo que se pueda saltar desde el código). Este botón
+     obliga a ese primer gesto antes de arrancar el vídeo, así el sonido sí
+     suena desde el primer fotograma en vez de depender de que el usuario
+     haga clic en algún punto indeterminado mientras el vídeo ya está
+     reproduciéndose mudo. Se oculta con display:none por CSS crítico si
+     JS detecta sesión ya vista / reduced-motion (ver intro.js). -->
+<button type="button" id="introStartGate" aria-label="Entrar con sonido">
+  <img src="logo.jpg" alt="" id="introGateLogo">
+  <span>Toca para entrar</span>
+</button>
+
+<header class="site-header">
+  <div class="header-container">
+    <div class="logo-area">
+      <img class="logo-img" id="headerLogo" src="logo.jpg" alt="Yeramar Logo">
+      <div>
+        <div class="logo-text">YERAMAR</div>
+        <div class="logo-sub">MACRAMÉ & JOYERÍA ARTESANAL • FUND. 2023</div>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="#">Tienda</a>
+      <a href="#waitlist-area">Lista de espera</a>
+    </div>
+  </div>
+</header>
+
+<div class="hero-banner">
+  <div class="banner-container">
+    <img class="banner-logo" src="logo.jpg" alt="Yeramar">
+    <div class="banner-text">
+      <h2>YERAMAR</h2>
+      <p class="banner-artisan">MACRAMÉ & JOYERÍA ARTESANAL • FUND. 2023</p>
+      <p>Bolsos, pulseras, pendientes y accesorios únicos tejidos a mano con fibras naturales.</p>
+    </div>
+  </div>
+</div>
+
+<main class="container">
+  <div class="categories-filter" id="filterContainer">
+    <button class="filter-btn active" data-category="all">Todos</button>
+    <button class="filter-btn" data-category="bolsos">👜 Bolsos</button>
+    <button class="filter-btn" data-category="pulseras">📿 Pulseras</button>
+    <button class="filter-btn" data-category="pendientes">💎 Pendientes</button>
+    <button class="filter-btn" data-category="varios">🎁 Varios</button>
+  </div>
+
+  <div id="productsGrid" class="products-grid"></div>
+
+  <div id="waitlist-area" class="waitlist-section">
+    <div class="waitlist-title">
+      <i class="fas fa-clock"></i> Lista de espera ✨
+    </div>
+    <div class="waitlist-desc">¿El producto que sueñas no tiene stock? Apúntate y te avisaremos cuando esté disponible.</div>
+    <div id="waitlistContainer" class="waitlist-grid"></div>
+  </div>
+</main>
+
+<!-- MODAL DE CONTACTO (pedido o lista de espera) -->
+<div id="channelModal" class="modal-waitlist">
+  <div class="modal-waitlist-content">
+    <h3 id="channelModalTitle">Contactar</h3>
+    <p id="channelModalDesc"></p>
+    <input type="text" id="channelModalNombre" placeholder="Tu nombre (opcional, ayuda a identificarte)" maxlength="80">
+    <div class="modal-actions">
+      <button class="btn-primary" id="channelModalWhatsapp"><i class="fab fa-whatsapp"></i> Escribir por WhatsApp</button>
+      <button class="btn-outline" id="channelModalEmail"><i class="fas fa-envelope"></i> Enviar por Email</button>
+      <button class="btn-outline" id="channelModalCancelar">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>✨ Yeramar · Macramé & Joyería Artesanal · Cada pieza es única · Hecho con pasión ✨</p>
+</footer>
+
+<script src="intro.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
